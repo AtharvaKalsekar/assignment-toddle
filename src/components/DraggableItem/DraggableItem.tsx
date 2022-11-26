@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import Draggable, { DraggableProps } from 'react-draggable';
 
 type DraggableItemProps = Partial<DraggableProps>;

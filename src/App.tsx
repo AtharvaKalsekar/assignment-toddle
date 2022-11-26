@@ -1,6 +1,7 @@
 import './App.css';
 
 import { DraggableItem } from '@components';
+import { EditableLabel } from 'modules';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <DraggableItem>
         <div>drag this element</div>
       </DraggableItem>
+      <EditableLabel />
     </div>
   );
 }
