@@ -79,3 +79,29 @@ const unFlatten = (nodes: Node[] = [], isAdded: any = {}): Standard[] => {
 
   return [...unFlatList, ...unFlatten(nodes, isAdded)];
 };
+
+const unFlatten2 = (nodes: Node[] = []): Standard[] => {
+  const unFlatList: Standard[] = [];
+
+  const standardMap: { [key: number]: Standard } = {};
+
+  nodes.forEach((node) => {
+    if (!node.parentId) {
+      standardMap[node.id] = {
+        id: node.id,
+        text: node.data.text,
+      };
+
+      unFlatList.push(standardMap[node.id]);
+    } else {
+      standardMap[node.parentId].subStandard =
+        standardMap[node.parentId].subStandard || [];
+      standardMap[node.parentId].subStandard?.push({
+        id: node.id,
+        text: node.data.text,
+      });
+    }
+  });
+
+  return unFlatList;
+};
