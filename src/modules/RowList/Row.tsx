@@ -19,6 +19,7 @@ export const Row = ({ node, index }: RowProps) => {
         <EditableLabel
           indentationLevel={node.indentationLevel}
           text={node.data.text}
+          index={index}
         />
       </div>
     </div>

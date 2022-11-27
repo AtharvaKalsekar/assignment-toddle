@@ -10,7 +10,8 @@ type ActionsPanelProps = {
 };
 
 export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
-  const { canIndent, canOutdent, indentRow, outdentRow } = useRowListContext();
+  const { canIndent, canOutdent, indentRow, outdentRow, deleteRow } =
+    useRowListContext();
 
   const onClickIndent = useCallback(() => {
     indentRow(index);
@@ -19,6 +20,10 @@ export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
   const onClickOutdent = useCallback(() => {
     outdentRow(index);
   }, [index, outdentRow]);
+
+  const onClickDelete = useCallback(() => {
+    deleteRow(index);
+  }, [deleteRow, index]);
 
   return (
     <div className="container">
@@ -29,7 +34,7 @@ export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
       {canIndent(index) && (
         <IconButton iconType="right-arrow" onClick={onClickIndent} />
       )}
-      <IconButton iconType="delete" />
+      <IconButton iconType="delete" onClick={onClickDelete} />
     </div>
   );
 };
