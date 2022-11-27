@@ -1,10 +1,22 @@
+import './EditableLabel.css';
+
 import { Input } from '@components';
 import { useClickOutside } from '@hooks';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 
-export const EditableLabel = () => {
+type EditableLabelProps = {
+  indentationLevel: number;
+  text: string;
+};
+
+export const EditableLabel = ({
+  indentationLevel,
+  text,
+}: EditableLabelProps) => {
   const [isEditable, setIsEditable] = useState<boolean>(false);
-  const [inputText, setInputText] = useState<string>("click here to edit");
+  const [inputText, setInputText] = useState<string>(
+    text.length ? text : "Default text"
+  );
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,7 +36,10 @@ export const EditableLabel = () => {
   }, []);
 
   return (
-    <div ref={ref} onClick={onClick}>
+    <div ref={ref} onClick={onClick} className="editable-label-container">
+      {Array.from({ length: indentationLevel }).map((_, index) => (
+        <span> --- </span>
+      ))}
       {isEditable ? (
         <Input
           value={inputText}

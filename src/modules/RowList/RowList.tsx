@@ -1,4 +1,3 @@
-import { DraggableItem } from 'components';
 import { useRowListContext } from 'modules/RowListContext';
 import { useMemo, useRef } from 'react';
 
@@ -17,20 +16,11 @@ export const RowList = () => {
 
   return (
     <div>
-      {rows.map((_, index) => {
+      {rows.map((node, index) => {
         return (
-          <DraggableItem
-            handle={`#drag_handle_${index}`}
-            axis="y"
-            bounds="parent"
-            grid={[gridWidth, gridHeight]}
-            key={index}
-            position={{ x: 0, y: 0 }}
-          >
-            <div ref={ref}>
-              <Row id={index} indentationLevel={0} />
-            </div>
-          </DraggableItem>
+          <div ref={ref}>
+            <Row node={node} />
+          </div>
         );
       })}
     </div>
