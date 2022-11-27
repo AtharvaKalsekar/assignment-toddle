@@ -5,6 +5,7 @@ import { EditableLabel } from 'modules/EditableLabel';
 
 type RowProps = {
   id: string | number;
+  indentationLevel: number;
 };
 
 export const Row = ({ id }: RowProps) => {
