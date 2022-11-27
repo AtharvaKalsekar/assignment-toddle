@@ -11,6 +11,7 @@ type TRowListContext = {
   canOutdent: (index: number) => boolean;
   onChangeText: (index: number, text: string) => void;
   deleteRow: (index: number) => void;
+  addRow: () => void;
 };
 
 const RowListContext = createContext<TRowListContext | null>(null);
@@ -87,6 +88,19 @@ export const RowListContextProvider = ({
     [rows]
   );
 
+  const addRow = useCallback(() => {
+    const newRows = [...rows];
+    newRows.push({
+      id: new Date().getTime(),
+      indentationLevel: newRows[newRows.length - 1].indentationLevel,
+      parentId: newRows[newRows.length - 1].parentId,
+      data: {
+        text: "default text",
+      },
+    });
+    setRows(newRows);
+  }, [rows]);
+
   const value: TRowListContext = {
     rows,
     indentRow,
@@ -95,6 +109,7 @@ export const RowListContextProvider = ({
     canOutdent,
     onChangeText,
     deleteRow,
+    addRow,
   };
 
   return (

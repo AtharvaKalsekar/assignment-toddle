@@ -1,9 +1,14 @@
 import './App.css';
 
-import { RowList } from '@modules';
+import { AddRowButton, RowList } from '@modules';
 
 function App() {
-  return <RowList />;
+  return (
+    <div>
+      <RowList />
+      <AddRowButton />
+    </div>
+  );
 }
 
 export default App;
