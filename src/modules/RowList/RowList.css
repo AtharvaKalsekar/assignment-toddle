@@ -1,0 +1,19 @@
+.row-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  background-color: white;
+  padding: 5px;
+  border: 1px solid black;
+  margin-block: 2px;
+}
+
+.actions-container {
+  padding: 3px;
+}
+
+.standard-container {
+  padding: 3px;
+}
