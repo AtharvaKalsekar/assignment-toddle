@@ -38,7 +38,7 @@ export const EditableLabel = ({
   return (
     <div ref={ref} onClick={onClick} className="editable-label-container">
       {Array.from({ length: indentationLevel }).map((_, index) => (
-        <span> --- </span>
+        <span key={index}> --- </span>
       ))}
       {isEditable ? (
         <Input

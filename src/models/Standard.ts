@@ -43,7 +43,7 @@ export const STANDARD: Standard[] = [
       },
       {
         id: 7,
-        text: "Standard 8",
+        text: "Standard 7",
       },
     ],
   },

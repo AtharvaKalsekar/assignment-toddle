@@ -14,12 +14,14 @@ export const RowList = () => {
     return [height, width];
   }, []);
 
+  console.log({ rows });
+
   return (
     <div>
       {rows.map((node, index) => {
         return (
-          <div ref={ref}>
-            <Row node={node} />
+          <div ref={ref} key={index}>
+            <Row node={node} index={index} />
           </div>
         );
       })}

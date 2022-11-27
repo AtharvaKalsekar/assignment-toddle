@@ -1,17 +1,34 @@
 import './ActionsPanel.css';
 
 import { IconButton } from '@components';
+import { useRowListContext } from 'modules/RowListContext';
+import { useCallback } from 'react';
 
 type ActionsPanelProps = {
-  id: string | number;
+  id: number;
+  index: number;
 };
 
-export const ActionsPanel = ({ id }: ActionsPanelProps) => {
+export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
+  const { canIndent, canOutdent, indentRow, outdentRow } = useRowListContext();
+
+  const onClickIndent = useCallback(() => {
+    indentRow(index);
+  }, [indentRow, index]);
+
+  const onClickOutdent = useCallback(() => {
+    outdentRow(index);
+  }, [index, outdentRow]);
+
   return (
     <div className="container">
       <IconButton id={`drag_handle_${id}`} iconType="drag" />
-      <IconButton iconType="left-arrow" />
-      <IconButton iconType="right-arrow" />
+      {canOutdent(index) && (
+        <IconButton iconType="left-arrow" onClick={onClickOutdent} />
+      )}
+      {canIndent(index) && (
+        <IconButton iconType="right-arrow" onClick={onClickIndent} />
+      )}
       <IconButton iconType="delete" />
     </div>
   );

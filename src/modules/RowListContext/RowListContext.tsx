@@ -1,6 +1,8 @@
 import { Node, ROWS } from 'models';
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
+import { updateRows } from './utils';
+
 type TRowListContext = {
   rows: Node[];
   indentRow: (index: number) => void;
@@ -31,7 +33,7 @@ export const RowListContextProvider = ({
   const canIndent = useCallback(
     (index: number) => {
       if (!index) {
-        return rows[index].indentationLevel === 0;
+        return false;
       }
       return (
         rows[index].indentationLevel - rows[index - 1].indentationLevel <= 0
@@ -44,20 +46,41 @@ export const RowListContextProvider = ({
     (index: number) => {
       const newRows = [...rows];
 
-      newRows[index] = {
-        ...newRows[index],
-        indentationLevel: newRows[index].indentationLevel + 1,
-        parentId: index ? newRows[index - 1].parentId : 0,
-      };
+      //   const { indentationLevel } = newRows[index];
+      //   const newIndentationLevel = indentationLevel + 1;
 
-      for (let i = index + 1; i < rows.length; i++) {
-        if (newRows[i].parentId === newRows[index].id) {
-          newRows[i] = {
-            ...newRows[i],
-            indentationLevel: newRows[index].indentationLevel + 1,
-          };
-        }
-      }
+      //   let newParentId = 0;
+      //   if (index > 0) {
+      //     const {
+      //       indentationLevel: previousNodeIndentationLevel,
+      //       id: previousNodeId,
+      //       parentId: previousNodeParentId,
+      //     } = newRows[index - 1];
+      //     newParentId = previousNodeId;
+      //     if (newIndentationLevel === previousNodeIndentationLevel) {
+      //       newParentId = previousNodeParentId;
+      //     }
+      //   }
+
+      //   newRows[index] = {
+      //     ...newRows[index],
+      //     indentationLevel: newIndentationLevel,
+      //     parentId: newParentId,
+      //   };
+
+      //   const affectedNodeIds: number[] = [newRows[index].id];
+
+      //   for (let i = index + 1; i < rows.length; i++) {
+      //     if (affectedNodeIds.includes(newRows[i].parentId)) {
+      //       affectedNodeIds.push(newRows[i].id);
+      //       newRows[i] = {
+      //         ...newRows[i],
+      //         indentationLevel: newRows[i].indentationLevel + 1,
+      //       };
+      //     }
+      //   }
+
+      updateRows(newRows, index, "indent");
 
       setRows(newRows);
     },
@@ -74,20 +97,42 @@ export const RowListContextProvider = ({
   const outdentRow = useCallback(
     (index: number) => {
       const newRows = [...rows];
-      newRows[index] = {
-        ...newRows[index],
-        indentationLevel: newRows[index].indentationLevel - 1,
-        parentId: index ? newRows[index - 1].parentId : 0,
-      };
 
-      for (let i = index + 1; i < rows.length; i++) {
-        if (newRows[i].parentId === newRows[index].id) {
-          newRows[i] = {
-            ...newRows[i],
-            indentationLevel: newRows[index].indentationLevel - 1,
-          };
-        }
-      }
+      //   const { indentationLevel } = newRows[index];
+      //   const newIndentationLevel = indentationLevel - 1;
+
+      //   let newParentId = 0;
+      //   if (index > 0) {
+      //     const {
+      //       indentationLevel: previousNodeIndentationLevel,
+      //       id: previousNodeId,
+      //       parentId: previousNodeParentId,
+      //     } = newRows[index - 1];
+      //     newParentId = previousNodeId;
+      //     if (newIndentationLevel === previousNodeIndentationLevel) {
+      //       newParentId = previousNodeParentId;
+      //     }
+      //   }
+
+      //   newRows[index] = {
+      //     ...newRows[index],
+      //     indentationLevel: newIndentationLevel,
+      //     parentId: newParentId,
+      //   };
+
+      //   const affectedNodeIds: number[] = [newRows[index].id];
+
+      //   for (let i = index + 1; i < rows.length; i++) {
+      //     if (affectedNodeIds.includes(newRows[i].parentId)) {
+      //       affectedNodeIds.push(newRows[i].id);
+      //       newRows[i] = {
+      //         ...newRows[i],
+      //         indentationLevel: newRows[i].indentationLevel - 1,
+      //       };
+      //     }
+      //   }
+
+      updateRows(newRows, index, "outdent");
 
       setRows(newRows);
     },
