@@ -48,7 +48,3 @@ const flatten = (
 };
 
 export const ROWS: Node[] = flatten(STANDARD);
-
-export const NODE_MAP: NodeMap = {
-  0: ROWS,
-};
