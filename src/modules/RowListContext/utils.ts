@@ -19,8 +19,15 @@ export const updateRows = (
     newParentId = previousNodeId;
     if (newIndentationLevel === 0) {
       newParentId = 0;
-    } else if (newIndentationLevel <= previousNodeIndentationLevel) {
+    } else if (newIndentationLevel === previousNodeIndentationLevel) {
       newParentId = previousNodeParentId;
+    } else if (newIndentationLevel < previousNodeIndentationLevel) {
+      for (let i = startIndex - 1; i >= 0; i--) {
+        if (newRows[i].indentationLevel === newIndentationLevel) {
+          newParentId = newRows[i].parentId;
+          break;
+        }
+      }
     }
   }
 
