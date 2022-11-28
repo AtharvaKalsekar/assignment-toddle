@@ -131,9 +131,9 @@ export const RowListContextProvider = ({
         const rowsToMove = rows.slice(targetIndex, endIndex + 1);
 
         const newRows = [...rows];
-        newRows.splice(targetIndex, rowsToMove.length + 1);
+        newRows.splice(targetIndex, rowsToMove.length);
 
-        newRows.splice(destinationIndex, rowsToMove.length + 1, ...rowsToMove);
+        newRows.splice(destinationIndex, 0, ...rowsToMove);
         setRows(newRows);
       }
     },
