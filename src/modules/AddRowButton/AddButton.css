@@ -1,6 +1,6 @@
-/* .add-button-container {
-    d
-} */
+.add-button-icon {
+  padding: 3px;
+}
 
 .add-button {
   width: -webkit-fill-available;
@@ -12,4 +12,16 @@
   border-radius: 5px;
   color: white;
   max-width: 300px;
+  font-weight: 700;
+  font-size: medium;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.add-button-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
