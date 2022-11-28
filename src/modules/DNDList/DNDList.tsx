@@ -41,7 +41,7 @@ const getListStyle = (isDraggingOver: boolean) => ({
 
 export const DNDList = () => {
   const [items, setItems] = useState<any[]>(getItems(10));
-  const { rows, isDndMode, dndGroup } = useRowListContext();
+  const { rows, isDndMode, dndGroup, endDndMode } = useRowListContext();
 
   const onDragEnd = (result: any) => {
     // dropped outside the list
@@ -57,7 +57,9 @@ export const DNDList = () => {
       result.destination.index
     );
 
-    setItems(newItems);
+    endDndMode(result.source.index, result.destination.index);
+
+    // setItems(newItems);
   };
 
   console.log({ dndGroup });

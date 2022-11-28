@@ -14,8 +14,7 @@ type TRowListContext = {
   addRow: () => void;
   isDndMode: boolean;
   startDndMode: (index: number) => void;
-  endDndMode: (index: number) => void;
-  toggleDndMode: (index: number) => void;
+  endDndMode: (soruceIndes?: number, destinationIndex?: number) => void;
   dndGroup: { targetIndex: number; affectedRowIndexes: number[] } | undefined;
 };
 
@@ -122,21 +121,23 @@ export const RowListContextProvider = ({
     [rows]
   );
 
-  const endDndMode = useCallback((index: number) => {
-    setIsDndMode(false);
-  }, []);
+  const endDndMode = useCallback(
+    (sourceIndex?: number, destinationIndex?: number) => {
+      setIsDndMode(false);
+      if (sourceIndex && destinationIndex && dndGroup) {
+        const { targetIndex, affectedRowIndexes } = dndGroup;
+        const endIndex = affectedRowIndexes[affectedRowIndexes.length - 1];
 
-  const toggleDndMode = useCallback(
-    (index: number) => {
-      setIsDndMode(!isDndMode);
-      if (!isDndMode) {
-        setDndGroup({
-          targetIndex: index,
-          affectedRowIndexes: getAffectedRowIndexes(rows, index),
-        });
+        const rowsToMove = rows.slice(targetIndex, endIndex + 1);
+
+        const newRows = [...rows];
+        newRows.splice(targetIndex, rowsToMove.length + 1);
+
+        newRows.splice(destinationIndex, rowsToMove.length + 1, ...rowsToMove);
+        setRows(newRows);
       }
     },
-    [isDndMode, rows]
+    [dndGroup, rows]
   );
 
   const value: TRowListContext = {
@@ -151,7 +152,6 @@ export const RowListContextProvider = ({
     isDndMode,
     startDndMode,
     endDndMode,
-    toggleDndMode,
     dndGroup,
   };
 
