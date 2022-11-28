@@ -1,7 +1,13 @@
 import { Node, ROWS } from 'models';
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
-import { deleteAffectedRows, getAffectedRowIndexes, getPossibleDestinationIndexes, updateRows } from './utils';
+import {
+    deleteAffectedRows,
+    getAffectedRowIndexes,
+    getPossibleDestinationIndexes,
+    updateAffectedRows,
+    updateRows,
+} from './utils';
 
 type TRowListContext = {
   rows: Node[];
@@ -148,6 +154,7 @@ export const RowListContextProvider = ({
         newRows.splice(targetIndex, rowsToMove.length);
 
         newRows.splice(destinationIndex, 0, ...rowsToMove);
+        updateAffectedRows(newRows);
         setRows(newRows);
       }
     },

@@ -100,3 +100,34 @@ export const getPossibleDestinationIndexes = (
 
   return possibleDestinationIndexes;
 };
+
+export const updateAffectedRows = (newRows: Node[]) => {
+  let stack: Node[] = [newRows[0]];
+
+  for (let i = 1; i < newRows.length; i++) {
+    let current = newRows[i];
+    let top = stack[stack.length - 1];
+
+    let { indentationLevel: prevIndentationLevel } = top;
+    let { indentationLevel: currentIndentationLevel } = current;
+
+    if (prevIndentationLevel < currentIndentationLevel) {
+      current.parentId = top.id;
+    } else {
+      while (
+        stack.length &&
+        stack[stack.length - 1].indentationLevel >= currentIndentationLevel
+      ) {
+        stack.pop();
+      }
+
+      if (!stack.length) {
+        current.parentId = 0;
+      } else {
+        current.parentId = stack[stack.length - 1].id;
+      }
+    }
+
+    stack.push(current);
+  }
+};

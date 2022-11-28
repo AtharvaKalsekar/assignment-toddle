@@ -15,8 +15,8 @@ const getItemStyle = (
   if (!isTarget) {
     return isAPossibleDestination
       ? {
-          "border-bottom": "2px solid red",
-          "margin-bottom": "14px",
+          borderBottom: "2px solid red",
+          marginBottom: "14px",
           ...draggableStyle,
         }
       : {
@@ -40,6 +40,8 @@ const getListStyle = (isDraggingOver: boolean) => ({
 
 export const RowList = () => {
   const { rows, isDndMode, dndGroup, endDndMode } = useRowListContext();
+
+  console.log({ rows });
 
   const onDragEnd = (result: any) => {
     if (!result.destination) {
