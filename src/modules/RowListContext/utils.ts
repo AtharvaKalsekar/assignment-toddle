@@ -79,3 +79,24 @@ export const getAffectedRowIndexes = (
 
   return affectedNodeIndexes;
 };
+
+export const getPossibleDestinationIndexes = (
+  newRows: Node[],
+  indexesToIgnore: number[],
+  startIndex: number
+): number[] => {
+  const possibleDestinationIndexes: number[] = [];
+  const sourceIndentationLevel = newRows[startIndex].indentationLevel;
+
+  for (let i = 0; i < newRows.length; i++) {
+    const destinationIndentationLevel = newRows[i].indentationLevel;
+    if (
+      !indexesToIgnore.includes(i) &&
+      destinationIndentationLevel <= sourceIndentationLevel
+    ) {
+      possibleDestinationIndexes.push(i);
+    }
+  }
+
+  return possibleDestinationIndexes;
+};

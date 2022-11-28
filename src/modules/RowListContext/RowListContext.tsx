@@ -1,7 +1,7 @@
 import { Node, ROWS } from 'models';
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
-import { deleteAffectedRows, getAffectedRowIndexes, updateRows } from './utils';
+import { deleteAffectedRows, getAffectedRowIndexes, getPossibleDestinationIndexes, updateRows } from './utils';
 
 type TRowListContext = {
   rows: Node[];
@@ -15,7 +15,13 @@ type TRowListContext = {
   isDndMode: boolean;
   startDndMode: (index: number) => void;
   endDndMode: (soruceIndes?: number, destinationIndex?: number) => void;
-  dndGroup: { targetIndex: number; affectedRowIndexes: number[] } | undefined;
+  dndGroup:
+    | {
+        targetIndex: number;
+        affectedRowIndexes: number[];
+        possibleDestinationIndexes: number[];
+      }
+    | undefined;
 };
 
 const RowListContext = createContext<TRowListContext | null>(null);
@@ -40,6 +46,7 @@ export const RowListContextProvider = ({
   const [dndGroup, setDndGroup] = useState<{
     targetIndex: number;
     affectedRowIndexes: number[];
+    possibleDestinationIndexes: number[];
   }>();
 
   const canIndent = useCallback(
@@ -112,10 +119,17 @@ export const RowListContextProvider = ({
 
   const startDndMode = useCallback(
     (index: number) => {
+      const affectedRowIndexes = getAffectedRowIndexes(rows, index);
+      const possibleDestinationIndexes = getPossibleDestinationIndexes(
+        rows,
+        affectedRowIndexes,
+        index
+      );
       setIsDndMode(true);
       setDndGroup({
         targetIndex: index,
-        affectedRowIndexes: getAffectedRowIndexes(rows, index),
+        affectedRowIndexes,
+        possibleDestinationIndexes,
       });
     },
     [rows]
