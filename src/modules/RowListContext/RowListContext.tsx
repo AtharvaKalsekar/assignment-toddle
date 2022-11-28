@@ -1,7 +1,7 @@
 import { Node, ROWS } from 'models';
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
-import { deleteAffectedRows, updateRows } from './utils';
+import { deleteAffectedRows, getAffectedRowIndexes, updateRows } from './utils';
 
 type TRowListContext = {
   rows: Node[];
@@ -12,6 +12,11 @@ type TRowListContext = {
   onChangeText: (index: number, text: string) => void;
   deleteRow: (index: number) => void;
   addRow: () => void;
+  isDndMode: boolean;
+  startDndMode: (index: number) => void;
+  endDndMode: (index: number) => void;
+  toggleDndMode: (index: number) => void;
+  dndGroup: { targetIndex: number; affectedRowIndexes: number[] } | undefined;
 };
 
 const RowListContext = createContext<TRowListContext | null>(null);
@@ -32,6 +37,11 @@ export const RowListContextProvider = ({
   children,
 }: RowListContextProviderProps) => {
   const [rows, setRows] = useState(ROWS);
+  const [isDndMode, setIsDndMode] = useState(false);
+  const [dndGroup, setDndGroup] = useState<{
+    targetIndex: number;
+    affectedRowIndexes: number[];
+  }>();
 
   const canIndent = useCallback(
     (index: number) => {
@@ -101,6 +111,34 @@ export const RowListContextProvider = ({
     setRows(newRows);
   }, [rows]);
 
+  const startDndMode = useCallback(
+    (index: number) => {
+      setIsDndMode(true);
+      setDndGroup({
+        targetIndex: index,
+        affectedRowIndexes: getAffectedRowIndexes(rows, index),
+      });
+    },
+    [rows]
+  );
+
+  const endDndMode = useCallback((index: number) => {
+    setIsDndMode(false);
+  }, []);
+
+  const toggleDndMode = useCallback(
+    (index: number) => {
+      setIsDndMode(!isDndMode);
+      if (!isDndMode) {
+        setDndGroup({
+          targetIndex: index,
+          affectedRowIndexes: getAffectedRowIndexes(rows, index),
+        });
+      }
+    },
+    [isDndMode, rows]
+  );
+
   const value: TRowListContext = {
     rows,
     indentRow,
@@ -110,6 +148,11 @@ export const RowListContextProvider = ({
     onChangeText,
     deleteRow,
     addRow,
+    isDndMode,
+    startDndMode,
+    endDndMode,
+    toggleDndMode,
+    dndGroup,
   };
 
   return (

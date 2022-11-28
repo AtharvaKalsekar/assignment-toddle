@@ -10,8 +10,15 @@ type ActionsPanelProps = {
 };
 
 export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
-  const { canIndent, canOutdent, indentRow, outdentRow, deleteRow } =
-    useRowListContext();
+  const {
+    canIndent,
+    canOutdent,
+    indentRow,
+    outdentRow,
+    deleteRow,
+    startDndMode,
+    endDndMode,
+  } = useRowListContext();
 
   const onClickIndent = useCallback(() => {
     indentRow(index);
@@ -25,9 +32,31 @@ export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
     deleteRow(index);
   }, [deleteRow, index]);
 
+  const onClickMove = () => {
+    startDndMode(index);
+  };
+
+  const onClickCancelMove = () => {
+    endDndMode(index);
+  };
+
+  const { isDndMode } = useRowListContext();
+
+  if (isDndMode) {
+    return (
+      <div className="container">
+        <IconButton iconType="delete" onClick={onClickCancelMove} />
+      </div>
+    );
+  }
+
   return (
     <div className="container">
-      <IconButton id={`drag_handle_${id}`} iconType="drag" />
+      <IconButton
+        id={`drag_handle_${id}`}
+        iconType="drag"
+        onClick={onClickMove}
+      />
       {canOutdent(index) && (
         <IconButton iconType="left-arrow" onClick={onClickOutdent} />
       )}

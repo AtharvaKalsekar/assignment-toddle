@@ -62,3 +62,20 @@ export const deleteAffectedRows = (newRows: Node[], startIndex: number) => {
 
   return newRows.filter((node) => !affectedNodeIds.includes(node.id));
 };
+
+export const getAffectedRowIndexes = (
+  newRows: Node[],
+  startIndex: number
+): number[] => {
+  const affectedNodeIds: number[] = [newRows[startIndex].id];
+  const affectedNodeIndexes: number[] = [startIndex];
+
+  for (let i = startIndex + 1; i < newRows.length; i++) {
+    if (affectedNodeIds.includes(newRows[i].parentId)) {
+      affectedNodeIds.push(newRows[i].id);
+      affectedNodeIndexes.push(i);
+    }
+  }
+
+  return affectedNodeIndexes;
+};

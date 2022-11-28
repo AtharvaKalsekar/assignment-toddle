@@ -18,9 +18,6 @@ export const EditableLabel = ({
 }: EditableLabelProps) => {
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const { onChangeText } = useRowListContext();
-  // const [inputText, setInputText] = useState<string>(
-  //   text.length ? text : "Default text"
-  // );
 
   const ref = useRef<HTMLDivElement>(null);
 
