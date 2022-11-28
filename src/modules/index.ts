@@ -3,3 +3,4 @@ export * from "./ActionsPanel";
 export * from "./RowList";
 export * from "./RowListContext";
 export * from "./AddRowButton";
+export * from "./Header";

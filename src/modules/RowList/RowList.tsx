@@ -10,19 +10,12 @@ const grid = 8;
 const getItemStyle = (
   isDragging: boolean,
   draggableStyle: any,
-  isTarget: boolean = false,
-  isAPossibleDestination: boolean = false
+  isTarget: boolean = false
 ) => {
   if (!isTarget) {
-    return isAPossibleDestination
-      ? {
-          borderBottom: "2px solid red",
-          marginBottom: "14px",
-          ...draggableStyle,
-        }
-      : {
-          ...draggableStyle,
-        };
+    return {
+      ...draggableStyle,
+    };
   }
 
   return {
@@ -97,8 +90,7 @@ export const RowList = () => {
                           ...getItemStyle(
                             snapshot.isDragging,
                             provided.draggableProps.style,
-                            index === dndGroup?.targetIndex,
-                            dndGroup?.possibleDestinationIndexes.includes(index)
+                            index === dndGroup?.targetIndex
                           ),
                           display: shouldHide ? "none" : "block",
                         }}
