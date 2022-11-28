@@ -1,0 +1,14 @@
+.input-item {
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.input-item:hover {
+  border: 1px solid plum;
+}
+
+.input-item:focus-visible {
+  border: 1px solid purple !important;
+  outline: none;
+}
