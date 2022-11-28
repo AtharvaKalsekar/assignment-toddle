@@ -3,6 +3,7 @@ import './RowList.css';
 import { Node } from 'models';
 import { ActionsPanel } from 'modules/ActionsPanel';
 import { EditableLabel } from 'modules/EditableLabel';
+import { useRowListContext } from 'modules/RowListContext';
 import { useState } from 'react';
 
 type RowProps = {
@@ -12,6 +13,7 @@ type RowProps = {
 
 export const Row = ({ node, index }: RowProps) => {
   const [showActions, setShowActions] = useState<boolean>(false);
+  const { isDndMode, dndGroup } = useRowListContext();
 
   return (
     <div
@@ -20,7 +22,10 @@ export const Row = ({ node, index }: RowProps) => {
       onMouseLeave={() => setShowActions(false)}
     >
       <div className="actions-container">
-        {showActions && <ActionsPanel id={node.id} index={index} />}
+        {((!isDndMode && showActions) ||
+          (isDndMode && dndGroup?.targetIndex === index)) && (
+          <ActionsPanel id={node.id} index={index} />
+        )}
       </div>
       <div className="standard-container">
         <EditableLabel

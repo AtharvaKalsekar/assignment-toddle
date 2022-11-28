@@ -1,0 +1,23 @@
+.icon-button {
+  padding: 2px;
+  text-align: center;
+  color: black;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  padding: 2px;
+  text-align: center;
+  color: deepskyblue;
+}
+
+.icon-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.icon-button-danger:hover {
+  color: red;
+}

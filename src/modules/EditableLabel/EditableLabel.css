@@ -3,3 +3,26 @@
   flex-direction: row;
   width: 100%;
 }
+
+.indent {
+  width: 30px;
+  display: inline;
+}
+
+.indentation-level-0 {
+  font-size: large;
+  font-weight: bold;
+  color: darkviolet;
+}
+
+.indentation-level-1 {
+  font-size: medium;
+  font-weight: 700;
+  color: rgb(183, 126, 207);
+}
+
+.indentation-level-2 {
+  font-size: small;
+  font-weight: 600;
+  color: gray;
+}

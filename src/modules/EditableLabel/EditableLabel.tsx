@@ -26,11 +26,15 @@ export const EditableLabel = ({
   }, []);
 
   const { startListening } = useClickOutside(ref, onClickOutside);
+  const { isDndMode } = useRowListContext();
 
   const onClick = useCallback(() => {
+    if (isDndMode) {
+      return;
+    }
     setIsEditable(true);
     startListening();
-  }, [startListening]);
+  }, [isDndMode, startListening]);
 
   const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +46,7 @@ export const EditableLabel = ({
   return (
     <div ref={ref} onClick={onClick} className="editable-label-container">
       {Array.from({ length: indentationLevel }).map((_, index) => (
-        <span key={index}> --- </span>
+        <div key={index} className="indent"></div>
       ))}
       {isEditable ? (
         <Input
@@ -51,7 +55,7 @@ export const EditableLabel = ({
           onChange={onChange}
         ></Input>
       ) : (
-        <div>{text}</div>
+        <div className={`indentation-level-${indentationLevel}`}>{text}</div>
       )}
     </div>
   );

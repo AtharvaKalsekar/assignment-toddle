@@ -1,30 +1,109 @@
-import { useRowListContext } from 'modules/RowListContext';
-import { useMemo, useRef } from 'react';
+import './RowList.css';
 
-import { Row } from './Row';
+import { Row } from 'modules/RowList/Row';
+import { useRowListContext } from 'modules/RowListContext';
+import { DragDropContext, Draggable, DraggableProvided, DraggableStateSnapshot, Droppable } from 'react-beautiful-dnd';
+
+const grid = 8;
+
+const getItemStyle = (
+  isDragging: boolean,
+  draggableStyle: any,
+  isTarget: boolean = false
+) => {
+  if (!isTarget) {
+    return {
+      ...draggableStyle,
+    };
+  }
+
+  return {
+    userSelect: "none",
+    padding: grid * 2,
+    margin: `0 0 ${grid}px 0`,
+    background: isDragging ? "lightgreen" : "grey",
+    ...draggableStyle,
+  };
+};
+
+const getListStyle = (isDraggingOver: boolean) => ({
+  background: isDraggingOver ? "lightblue" : "lightgrey",
+  padding: grid,
+});
 
 export const RowList = () => {
-  const ref = useRef<HTMLDivElement>(null);
+  const { rows, isDndMode, dndGroup, endDndMode } = useRowListContext();
 
-  const { rows } = useRowListContext();
-
-  const [gridHeight, gridWidth] = useMemo(() => {
-    const height = ref.current?.offsetHeight || 0;
-    const width = ref.current?.offsetWidth || 0;
-    return [height, width];
-  }, []);
-
-  console.log({ rows });
+  const onDragEnd = (result: any) => {
+    if (!result.destination) {
+      return;
+    }
+    endDndMode(result.source.index, result.destination.index);
+  };
 
   return (
-    <div>
-      {rows.map((node, index) => {
-        return (
-          <div ref={ref} key={index}>
-            <Row node={node} index={index} />
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="droppable">
+        {(provided, snapshot) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            style={getListStyle(snapshot.isDraggingOver)}
+            className="row-list-container"
+          >
+            {rows.map((node, index) =>
+              isDndMode ? (
+                <Draggable
+                  key={node.id}
+                  draggableId={`${node.id}`}
+                  index={index}
+                >
+                  {(
+                    provided: DraggableProvided,
+                    snapshot: DraggableStateSnapshot
+                  ) => {
+                    const shouldHide =
+                      dndGroup?.affectedRowIndexes.includes(index) &&
+                      index > dndGroup.targetIndex;
+
+                    return (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={{
+                          ...getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style,
+                            index === dndGroup?.targetIndex
+                          ),
+                          display: shouldHide ? "none" : "block",
+                        }}
+                        className="row-wrapper"
+                      >
+                        {index === dndGroup?.targetIndex ? (
+                          dndGroup.affectedRowIndexes.map((i) => (
+                            <Row node={rows[i]} index={i} />
+                          ))
+                        ) : !dndGroup?.affectedRowIndexes.includes(index) ? (
+                          <Row node={node} index={index} />
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    );
+                  }}
+                </Draggable>
+              ) : (
+                <div key={node.id} className="row-wrapper">
+                  <Row node={node} index={index} />
+                </div>
+              )
+            )}
+            {provided.placeholder}
           </div>
-        );
-      })}
-    </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };

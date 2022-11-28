@@ -1,13 +1,26 @@
+.row-list-container {
+  padding: 5px;
+  margin: 5px;
+}
+
+.row-wrapper {
+  display: flex;
+  width: inherit;
+}
+
 .row-container {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: stretch;
   gap: 3px;
-  width: 100%;
+  width: -webkit-fill-available;
   background-color: white;
-  padding: 5px;
+  padding-inline: 5px;
+  padding-block: 7px;
   border: 1px solid black;
   margin-block: 2px;
+  height: 30px;
 }
 
 .actions-container {

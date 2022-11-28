@@ -45,24 +45,24 @@ export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
   if (isDndMode) {
     return (
       <div className="container">
-        <IconButton iconType="delete" onClick={onClickCancelMove} />
+        <IconButton iconType="cancel" onClick={onClickCancelMove} />
       </div>
     );
   }
 
   return (
     <div className="container">
+      <IconButton iconType="drag" onClick={onClickMove} />
       <IconButton
-        id={`drag_handle_${id}`}
-        iconType="drag"
-        onClick={onClickMove}
+        iconType="left-arrow"
+        onClick={onClickOutdent}
+        disbaled={!canOutdent(index)}
       />
-      {canOutdent(index) && (
-        <IconButton iconType="left-arrow" onClick={onClickOutdent} />
-      )}
-      {canIndent(index) && (
-        <IconButton iconType="right-arrow" onClick={onClickIndent} />
-      )}
+      <IconButton
+        iconType="right-arrow"
+        onClick={onClickIndent}
+        disbaled={!canIndent(index)}
+      />
       <IconButton iconType="delete" onClick={onClickDelete} />
     </div>
   );
