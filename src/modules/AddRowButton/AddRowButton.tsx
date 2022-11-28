@@ -1,6 +1,6 @@
 import './AddButton.css';
 
-import { useRowListContext } from 'modules/RowListContext';
+import { useRowListContext } from '@modules';
 import { PlusCircle } from 'react-feather';
 
 export const AddRowButton = () => {

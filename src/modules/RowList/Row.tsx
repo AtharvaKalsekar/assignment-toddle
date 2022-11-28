@@ -1,9 +1,7 @@
 import './RowList.css';
 
+import { ActionsPanel, EditableLabel, useRowListContext } from '@modules';
 import { Node } from 'models';
-import { ActionsPanel } from 'modules/ActionsPanel';
-import { EditableLabel } from 'modules/EditableLabel';
-import { useRowListContext } from 'modules/RowListContext';
 import { useState } from 'react';
 
 type RowProps = {

@@ -2,8 +2,8 @@ import './EditableLabel.css';
 
 import { Input } from '@components';
 import { useClickOutside } from '@hooks';
-import { useRowListContext } from 'modules/RowListContext';
-import { ChangeEvent, SyntheticEvent, useCallback, useRef, useState } from 'react';
+import { useRowListContext } from '@modules';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 
 type EditableLabelProps = {
   index: number;
@@ -43,11 +43,14 @@ export const EditableLabel = ({
     [index, onChangeText]
   );
 
-  const onKeyDown = useCallback((event: any) => {
-    if (event.key === "Enter") {
-      onClickOutside();
-    }
-  }, []);
+  const onKeyDown = useCallback(
+    (event: any) => {
+      if (event.key === "Enter") {
+        onClickOutside();
+      }
+    },
+    [onClickOutside]
+  );
 
   return (
     <div ref={ref} onClick={onClick} className="editable-label-container">

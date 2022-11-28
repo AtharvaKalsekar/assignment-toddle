@@ -47,8 +47,6 @@ export const RowList = () => {
     return () => window.removeEventListener("keydown", handler);
   }, [endDndMode, isDndMode]);
 
-  console.log({ rows });
-
   const onDragEnd = (result: any) => {
     if (!result.destination) {
       return;

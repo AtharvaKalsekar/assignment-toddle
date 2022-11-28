@@ -28,6 +28,7 @@ type TRowListContext = {
         possibleDestinationIndexes: number[];
       }
     | undefined;
+  loadRows: (rows: Node[]) => void;
 };
 
 const RowListContext = createContext<TRowListContext | null>(null);
@@ -161,6 +162,10 @@ export const RowListContextProvider = ({
     [dndGroup, rows]
   );
 
+  const loadRows = (rows: Node[]) => {
+    setRows(rows);
+  };
+
   const value: TRowListContext = {
     rows,
     indentRow,
@@ -174,6 +179,7 @@ export const RowListContextProvider = ({
     startDndMode,
     endDndMode,
     dndGroup,
+    loadRows,
   };
 
   return (

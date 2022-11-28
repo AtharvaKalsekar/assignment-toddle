@@ -1,7 +1,7 @@
 import './ActionsPanel.css';
 
 import { IconButton } from '@components';
-import { useRowListContext } from 'modules/RowListContext';
+import { useRowListContext } from '@modules';
 import { useCallback } from 'react';
 
 type ActionsPanelProps = {
