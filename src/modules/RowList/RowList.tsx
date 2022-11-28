@@ -2,6 +2,7 @@ import './RowList.css';
 
 import { Row } from 'modules/RowList/Row';
 import { useRowListContext } from 'modules/RowListContext';
+import { useEffect } from 'react';
 import { DragDropContext, Draggable, DraggableProvided, DraggableStateSnapshot, Droppable } from 'react-beautiful-dnd';
 
 const grid = 8;
@@ -40,6 +41,18 @@ const getListStyle = (isDraggingOver: boolean) => ({
 
 export const RowList = () => {
   const { rows, isDndMode, dndGroup, endDndMode } = useRowListContext();
+
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isDndMode) {
+        endDndMode();
+      }
+    };
+
+    window.addEventListener("keydown", handler);
+
+    return () => window.removeEventListener("keydown", handler);
+  }, [endDndMode, isDndMode]);
 
   console.log({ rows });
 

@@ -117,7 +117,7 @@ export const RowListContextProvider = ({
       indentationLevel: newRows[newRows.length - 1].indentationLevel,
       parentId: newRows[newRows.length - 1].parentId,
       data: {
-        text: "default text",
+        text: "Enter some text here...",
       },
     });
     setRows(newRows);

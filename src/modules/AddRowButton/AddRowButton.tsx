@@ -1,3 +1,5 @@
+import './AddButton.css';
+
 import { useRowListContext } from 'modules/RowListContext';
 
 export const AddRowButton = () => {
@@ -6,5 +8,9 @@ export const AddRowButton = () => {
     addRow();
   };
 
-  return <button onClick={onClick}>AddRowButton</button>;
+  return (
+    <button className="add-button" onClick={onClick}>
+      AddRowButton
+    </button>
+  );
 };
