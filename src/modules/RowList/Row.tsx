@@ -2,14 +2,14 @@ import './RowList.css';
 
 import { ActionsPanel, EditableLabel, useRowListContext } from '@modules';
 import { Node } from 'models';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 type RowProps = {
   node: Node;
   index: number;
 };
 
-export const Row = ({ node, index }: RowProps) => {
+export const Row = memo(({ node, index }: RowProps) => {
   const [showActions, setShowActions] = useState<boolean>(false);
   const { isDndMode, dndGroup } = useRowListContext();
 
@@ -34,4 +34,4 @@ export const Row = ({ node, index }: RowProps) => {
       </div>
     </div>
   );
-};
+});

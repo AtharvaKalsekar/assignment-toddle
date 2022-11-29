@@ -2,14 +2,14 @@ import './ActionsPanel.css';
 
 import { IconButton } from '@components';
 import { useRowListContext } from '@modules';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 type ActionsPanelProps = {
   id: number;
   index: number;
 };
 
-export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
+export const ActionsPanel = memo(({ id, index }: ActionsPanelProps) => {
   const {
     canIndent,
     canOutdent,
@@ -66,4 +66,4 @@ export const ActionsPanel = ({ id, index }: ActionsPanelProps) => {
       <IconButton iconType="delete" onClick={onClickDelete} />
     </div>
   );
-};
+});

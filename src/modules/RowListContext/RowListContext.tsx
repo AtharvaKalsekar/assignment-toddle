@@ -68,14 +68,13 @@ export const RowListContextProvider = ({
     [rows]
   );
 
-  const indentRow = useCallback(
-    (index: number) => {
+  const indentRow = useCallback((index: number) => {
+    setRows((rows) => {
       const newRows = [...rows];
       updateRows(newRows, index, "indent");
-      setRows(newRows);
-    },
-    [rows]
-  );
+      return newRows;
+    });
+  }, []);
 
   const canOutdent = useCallback((index: number) => {
     if (!index) {
@@ -84,45 +83,44 @@ export const RowListContextProvider = ({
     return true;
   }, []);
 
-  const outdentRow = useCallback(
-    (index: number) => {
+  const outdentRow = useCallback((index: number) => {
+    setRows((rows) => {
       const newRows = [...rows];
       updateRows(newRows, index, "outdent");
-      setRows(newRows);
-    },
-    [rows]
-  );
+      return newRows;
+    });
+  }, []);
 
-  const onChangeText = useCallback(
-    (index: number, text: string) => {
+  const onChangeText = useCallback((index: number, text: string) => {
+    setRows((rows) => {
       const newRows = [...rows];
       newRows[index].data.text = text;
-      setRows(newRows);
-    },
-    [rows]
-  );
+      return newRows;
+    });
+  }, []);
 
-  const deleteRow = useCallback(
-    (index: number) => {
+  const deleteRow = useCallback((index: number) => {
+    setRows((rows) => {
       let newRows = [...rows];
       newRows = deleteAffectedRows(newRows, index);
-      setRows(newRows);
-    },
-    [rows]
-  );
+      return newRows;
+    });
+  }, []);
 
   const addRow = useCallback(() => {
-    const newRows = [...rows];
-    newRows.push({
-      id: new Date().getTime(),
-      indentationLevel: newRows[newRows.length - 1].indentationLevel,
-      parentId: newRows[newRows.length - 1].parentId,
-      data: {
-        text: "Enter some text here...",
-      },
+    setRows((rows) => {
+      const newRows = [...rows];
+      newRows.push({
+        id: new Date().getTime(),
+        indentationLevel: newRows[newRows.length - 1].indentationLevel,
+        parentId: newRows[newRows.length - 1].parentId,
+        data: {
+          text: "Enter some text here...",
+        },
+      });
+      return newRows;
     });
-    setRows(newRows);
-  }, [rows]);
+  }, []);
 
   const startDndMode = useCallback(
     (index: number) => {

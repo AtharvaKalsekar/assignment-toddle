@@ -96,7 +96,7 @@ export const RowList = () => {
                       >
                         {index === dndGroup?.targetIndex ? (
                           dndGroup.affectedRowIndexes.map((i) => (
-                            <Row node={rows[i]} index={i} />
+                            <Row key={index} node={rows[i]} index={i} />
                           ))
                         ) : !dndGroup?.affectedRowIndexes.includes(index) ? (
                           <Row node={node} index={index} />
